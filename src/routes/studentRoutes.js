@@ -13,6 +13,16 @@ router.post("/students", async (req, res) => {
   }
 });
 
+// Create multiple students
+router.post("/students/bulk", async (req, res) => {
+  try {
+    const students = await Student.bulkCreate(req.body);
+    res.status(201).json(students);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 // Get all Students
 router.get("/students", async (req, res) => {
   try {
@@ -38,6 +48,7 @@ router.get("/students/:id", async (req, res) => {
   }
 });
 
+// delete a student
 router.delete("/students/:id", async (req, res) => {
   try {
     const student = await Student.findByPk(req.params.id);
@@ -52,6 +63,7 @@ router.delete("/students/:id", async (req, res) => {
   }
 });
 
+// update a student
 router.put("/students/:id", async (req, res) => {
   try {
     const student = await Student.findByPk(req.params.id);
