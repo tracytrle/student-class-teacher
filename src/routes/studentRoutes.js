@@ -47,7 +47,7 @@ router.get("/students", async (req, res) => {
       totalPages: Math.ceil(count / pageSize),
       currentPage: page,
       pageSize: pageSize,
-      student: rows,
+      students: rows,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -55,7 +55,6 @@ router.get("/students", async (req, res) => {
 });
 
 // Get a single student with id
-
 router.get("/students/:id", async (req, res) => {
   try {
     const student = await Student.findByPk(req.params.id);

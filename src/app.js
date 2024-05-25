@@ -12,10 +12,6 @@ const port = 3000;
 app.use(express.json());
 app.use("/api", studentRoutes);
 
-// app.listen(port, () => {
-//   console.log(`App is running on http://localhost:${port}`);
-// });
-
 // Sync Database and Start Server
 sequelize.sync().then(() => {
   app.listen(port, () => {
