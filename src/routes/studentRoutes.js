@@ -38,4 +38,18 @@ router.get("/students/:id", async (req, res) => {
   }
 });
 
+router.delete("/students/:id", async (req, res) => {
+  try {
+    const student = await Student.findByPk(req.params.id);
+    if (student) {
+      await student.destroy();
+      res.status(200).json(student);
+    } else {
+      res.status(400).json({ error: "student not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;
