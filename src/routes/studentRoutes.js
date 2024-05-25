@@ -24,12 +24,33 @@ router.post("/students/bulk", async (req, res) => {
 });
 
 // Get all Students
+// router.get("/students", async (req, res) => {
+//   try {
+//     const students = await Student.findAll();
+//     res.status(200).json(students);
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// });
 router.get("/students", async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 10;
+  const offset = (page - 1) * pageSize;
   try {
-    const students = await Student.findAll();
-    res.status(200).json(students);
+    const { count, rows } = await Student.findAndCountAll({
+      limit: pageSize,
+      offset: offset,
+    });
+
+    res.status(200).json({
+      totalItems: count,
+      totalPages: Math.ceil(count / pageSize),
+      currentPage: page,
+      pageSize: pageSize,
+      student: rows,
+    });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 
